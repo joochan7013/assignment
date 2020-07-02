@@ -8,9 +8,17 @@
     <h2>Login</h2>
     <label for="email">Email</label>    
     <input type="text" id="email" name="email"> <br><br>
+     {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
+    <br>
 
     <label for="password">Password</label>    
     <input type="password" id="password" name="password"> <br> <br>
+    {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
+    <br>
 
     <input id = "button" type="submit" value="Login"><br>
 </form>

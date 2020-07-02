@@ -14,18 +14,33 @@
         <p id="or">--------------------- OR ---------------------</p>
     <label for="firstName">First Name</label>    
     <input type="text" id="firstName" name="firstName"> <br><br>
+    {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
 
     <label for="lastName">Last Name</label>    
     <input type="text" id="lastName" name="lastName"> <br><br>
+    {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
 
     <label for="email">Email</label>    
     <input type="text" id="email" name="email"> <br><br>
+    {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
 
     <label for="password">Password</label>    
     <input type="password" id="password" name="password"> <br> <br>
+    {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
 
     <label for="password2">Re-enter Password</label>    
     <input type="password" id="password2" name="password2"> <br> <br>
+    {{#each  errorMessages}}
+              <div class="error">{{this}}</div>
+    {{/each}}
 
     <input id = "button" type="submit" value="Create Live Fit Food Account"><br>
 

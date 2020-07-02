@@ -13,12 +13,12 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("public"));
 
-const homecontrol = require("./controller/home");
+const generalcontrol = require("./controller/general");
 
-app.use("/", homecontrol);
+app.use("/", generalcontrol);
 
 const PORT =process.env.PORT;
-app.listen(PORT,()=>
+app.listen(3000,()=>
 {
     console.log("Server is up and running at ", 3000);
 })
