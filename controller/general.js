@@ -3,6 +3,16 @@ const router = express.Router();
 const content_ = require("../model/content");
 const meals_ = require("../model/meals");
 
+function isEmpty(object)
+{
+    for(let key in object)
+    {
+        if(object.hasOwnProperty(key)){
+            return false;
+        }
+    }
+    return true;
+}
 router.get('/', (req,res) =>{
 
     res.render("home",
@@ -33,152 +43,80 @@ router.get('/customer', (req,res) =>{
 })
 router.post("/customer",(req,res)=>{
 
-const {firstName,lastName,email} = req.body;
+const {firstName,lastName,email, password, password2} = req.body;
 const sgMail = require('@sendgrid/mail');
+let error = {};
+const numalpha = /^((?=.*[a-z])(?=.*[A-Z]))/;
+const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);   
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const msg = {
-  to: `${email}`,
-  from: 'joochan7013@gmail.com',
-  subject: 'Customer Registration',
-  text: 'Successfully Registered',
-  html: `<strong>Thank you for registering ${firstName} ${lastName}
-  <br> Emali: ${email}</strong>`,
+    if(firstName=="")
+    {
+        error.name ="You Must Enter First Name";
+    }
+    if(lastName=="")
+    {
+        error.lastname = "You Must Enter Last Name";
+    }
+    if(email=="")
+    {
+        error.email = "You Must Enter an Email";
+    }
+    else if(!emailvalid.test(email))
+    {
+        error.email ="Email isn't in right form";
+    }
+    if(password=="")
+    {
+        error.password = "You Must Enter a Password";
+    }
+    else if(password.length < 6 || password.length > 17)
+    {
+        error.password ="Password lenght has to be minimum 6 and maximum 16";
+    }
+    else if(!numalpha.test(password))
+    {
+        error.password ="Password must contain Upper and Lower";
+    }
+
+    if(password != password2)
+    {
+        error.password2 ="Not the same password";
+    }
+
+    if(isEmpty(error))
+    {
+    const msg = {
+        to: `${email}`,
+        from: 'joochan7013@gmail.com',
+        subject: 'Welcome to Live Fit Foods',
+        text: 'So Happy to See you Starting a Healthy Lifestyle',
+        html: `<strong>Hello ${firstName} ${lastName}, Nice to meet you!</strong>`,
 };
-
-sgMail.send(msg)
-    .then(()=> {
+    
+    sgMail.send(msg)
+    .then(()=>{
         res.redirect("/");
-    })
-
+    })    
     .catch(err => {
         console.log(`Error ${err}`);
-    })
-
-    const errors = [];
-    const errors1 = [];
-    const errors2 = [];
-    const errors3 = [];
-    const error_ =[];
-    const errors4 = [];
-    const errors5 = [];
-    const error6 = [];
-    const numalpha = /^[a-z][A-Z][0-9]$/;
-    const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    
-    if(req.body.firstName=="")
+    })    
+    }
+    else
     {
-        errors.push("You Must Enter First Name");
-    }
-    if(req.body.lastName=="")
-    {
-        errors1.push("You Must Enter Last Name");
-    }
-    if(req.body.email=="")
-    {
-        errors2.push("You Must Enter an Email");
-    }
-    else if(emailvalid.test(req.body.email))
-    {
-        error_.push("Email isn't in right form");
-    }
-    if(req.body.password=="")
-    {
-        errors3.push("You Must Enter a Password");
-    }
-    else if(req.body.password.length < 6 || req.body.password.length > 17)
-    {
-        errors4.push("Password lenght has to be minimum 6 and maximum 16");
-    }
-    else if(!numalpha.test(req.body.password))
-    {
-        errors5.push("Password can only have numbers and alphabets")
-    }
-
-    if(req.body.password != req.body.password2)
-    {
-        error6.push("Not the same password");
-    }
-
-    if(errors.length>0){
-        res.render("/customer",{
+        res.render("customer",{
             title : "Customer Registration",
-            errorMessage : errors
+            errorName: error.name,
+            errorLast: error.lastname,
+            errorEmail: error.email,
+            errorPass: error.password,
+            errorPass2: error.password2,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: req.body.password,
+            password2: req.body.password2
         });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(errors1.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : errors1
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(errors2.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : errors2
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(errors3.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : errors3
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(error_.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : error_
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(errors4.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : errors4
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(errors5.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : errors5
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
-    }
-    if(error6.length>0){
-        res.render("/customer",{
-            title : "Customer Registration",
-            errorMessage : error6
-        });
-        return;
-    }
-    else{
-        res.redirect("/");
     }
 });
 router.get('/login', (req,res) =>{
@@ -189,45 +127,33 @@ router.get('/login', (req,res) =>{
     });
 })
 router.post('/login', (req,res) => {
-    const error1 = [];
-    const error2 = [];
+    let error = {};
+    const {email, password} = req.body;
 
-    if(req.body.email == "")
+    if(email == "")
     {
-        error1.push ("Required Field");
+        error.email ="Required Field";
     }
 
-    if(req.body.password == "")
+    if(password == "")
     {
-        error2.push("Required Field");
+        error.password = "Required Field";
     }
 
-    if(error1.length > 0)
+    if(isEmpty(error))
     {
-        res.render('login' , {
-            title: 'Login',
-            errorMessages: error1
-        });
-        return;
-    }
-
-    else{
         res.redirect("/");
     }
-
-    if(error2.length > 0)
+    else
     {
         res.render('login', {
             title: 'Login',
-            errorMessages: error2
+            error1: error.email,
+            error2: error.password,
+            email: req.body.email,
+            password: req.body.password
         });
-        return;
     }
-
-    else{
-        res.redirect("/");
-    }
-
 });
 
 

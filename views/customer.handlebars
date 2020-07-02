@@ -13,34 +13,24 @@
         </div>
         <p id="or">--------------------- OR ---------------------</p>
     <label for="firstName">First Name</label>    
-    <input type="text" id="firstName" name="firstName"> <br><br>
-    {{#each  errorMessages}}
-              <div class="error">{{this}}</div>
-    {{/each}}
+    <input type="text" value="{{firstName}}" id="firstName" name="firstName"> <br><br>
+    <p class="error">{{errorName}}</p><br>
 
     <label for="lastName">Last Name</label>    
-    <input type="text" id="lastName" name="lastName"> <br><br>
-    {{#each  errorMessages}}
-              <div class="error">{{this}}</div>
-    {{/each}}
+    <input type="text" value="{{lastName}}" id="lastName" name="lastName"> <br><br>
+   <p class="error">{{errorLast}}</p><br>
 
     <label for="email">Email</label>    
-    <input type="text" id="email" name="email"> <br><br>
-    {{#each  errorMessages}}
-              <div class="error">{{this}}</div>
-    {{/each}}
-
+    <input type="text" value="{{email}}" id="email" name="email"> <br><br>
+    <p class="error">{{errorEmail}}</p><br>
+ 
     <label for="password">Password</label>    
-    <input type="password" id="password" name="password"> <br> <br>
-    {{#each  errorMessages}}
-              <div class="error">{{this}}</div>
-    {{/each}}
+    <input type="password" value="{{password}}" id="password" name="password"> <br> <br>
+    <p class="error">{{errorPass}}</p><br>
 
     <label for="password2">Re-enter Password</label>    
-    <input type="password" id="password2" name="password2"> <br> <br>
-    {{#each  errorMessages}}
-              <div class="error">{{this}}</div>
-    {{/each}}
+    <input type="password" value="{{password2}}" id="password2" name="password2"> <br> <br>
+    <p class="error">{{errorPass2}}</p><br>
 
     <input id = "button" type="submit" value="Create Live Fit Food Account"><br>
 
