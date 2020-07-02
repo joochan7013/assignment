@@ -18,7 +18,7 @@ const generalcontrol = require("./controller/general");
 app.use("/", generalcontrol);
 
 const PORT =process.env.PORT;
-app.listen(3000,()=>
+app.listen(PORT,()=>
 {
     console.log("Server is up and running at ", 3000);
 })

@@ -389,3 +389,21 @@ td{
     color: white;
   }
     
+  h3
+{
+    padding-left: 38%;
+    font-size: 50pt;
+    font-family: "Staatliches";
+}
+
+.dash
+{
+    float: center;
+    width: 70%;
+    padding-top: 50px;
+    padding-bottom: 150px;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: auto;
+    margin-bottom: 20px;
+}

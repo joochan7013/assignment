@@ -96,7 +96,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     
     sgMail.send(msg)
     .then(()=>{
-        res.redirect("/");
+        res.redirect("/dashboard");
     })    
     .catch(err => {
         console.log(`Error ${err}`);
@@ -156,5 +156,12 @@ router.post('/login', (req,res) => {
     }
 });
 
+router.get('/dashboard', (req,res) =>{
+
+    res.render("dashboard",
+    {
+        title: "Welcome New Member"
+    });
+})
 
 module.exports = router;
