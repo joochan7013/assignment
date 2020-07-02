@@ -20,5 +20,5 @@ app.use("/", generalcontrol);
 const PORT =process.env.PORT;
 app.listen(PORT,()=>
 {
-    console.log("Server is up and running at ", 3000);
+    console.log("Server is up and running at ", PORT);
 })

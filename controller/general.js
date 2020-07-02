@@ -47,8 +47,7 @@ const {firstName,lastName,email, password, password2} = req.body;
 const sgMail = require('@sendgrid/mail');
 let error = {};
 const numalpha = /^((?=.*[a-z])(?=.*[A-Z]))/;
-const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);   
+const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
 
     if(firstName=="")
     {
@@ -88,16 +87,17 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     {
     const msg = {
         to: `${email}`,
-        from: 'joochan7013@gmail.com',
+        from: 'jkim551@myseneca.ca',
         subject: 'Welcome to Live Fit Foods',
         text: 'So Happy to See you Starting a Healthy Lifestyle',
         html: `<strong>Hello ${firstName} ${lastName}, Nice to meet you!</strong>`,
-};
-    
+    };
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY); 
     sgMail.send(msg)
     .then(()=>{
-        res.redirect("/dashboard");
-    })    
+        res.redirect("./dashboard");
+    })  
+
     .catch(err => {
         console.log(`Error ${err}`);
     })    
