@@ -1,0 +1,22 @@
+<section>
+    <img class="banner" src = "/img/mealbanner.jpg">
+    <p id="headtitle">Pick a Package, Choose and Achieve your Goals!</p>
+       {{#each meal}}
+    <div class="row3">
+        <div class="column3">
+            {{#if best}}
+            <p id="mebest">Top Package</p>
+            {{else }}
+            <p></p>
+            {{/if}}
+             <img class="item" src="{{this.image}}">
+            <p id="metitle">{{this.title}}</p>
+             <p id="mesynop">{{this.synopsis}}</p>
+            <p id="mecategory">Category: {{this.category}}</p>
+            <p id="medes">{{this.price}}</p>
+            <p id="noofmeals">Number of Meals: {{this.noofmeals}}</p>
+        </div>
+        
+    </div>
+     {{/each}}
+</section>

@@ -1,0 +1,40 @@
+<br><br>
+<section>
+    <img class="banner" src = "/img/banner.jpg">
+</section>
+<section>
+<br><br>
+<h1>Order, Deliver, Eat.</h1>
+   {{#each content}}
+   
+        <div class="row">
+            <div class="column">
+                <img id="primg" src="{{this.image}}" style="width:250px;height:275px">
+               <p id = "contenttitle">{{this.title}}</p>
+               <p id = "contenttitle2">{{this.description}}</p>
+            </div>
+        </div> 
+   {{/each}}
+
+    <div class="ban">
+        <img class="banner2" src = "/img/banner2.jpg"  style="height:550px">
+    </div>
+
+    <p id= "mealtitle">Top Meal Packages.</p>    
+    <p id= "mealdes">The most sold meal packages that everyone wants to have!</p> 
+    {{#each meal}}
+    <div class="best">
+        <div class="row2">
+             {{#if best}}
+            <div class="column2">
+                <img id="bestimg" src="{{this.image}}" style="width:200px;height:200px">
+                <p id = "besttitle">{{this.title}}</p>
+                <p id= "bestdes">{{this.price}}</p>
+            </div>
+            {{/if}}
+            
+        </div> 
+    </div>  
+    {{/each}}
+    
+</section>

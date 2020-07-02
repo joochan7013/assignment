@@ -1,0 +1,391 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    height: 100%;
+}
+
+section{
+    overflow: auto;
+    padding-bottom: 0px;
+}
+
+body{
+    background-color: rgba(255, 255, 255, 0.959);
+}
+
+/*Navigation bar*/
+
+.topnav {
+    background-color: white;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  
+.topnav a {
+    color: black;
+    font-family: "Staatliches";
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+#logo
+{
+    background-color: white;
+    padding-left: 3cm;
+}
+  
+.topnav a:hover {
+    background-color: #ddd;
+    color: white;
+}
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+#home{
+    position: absolute;
+    left: 570px;
+    top: 10px;
+}
+
+#prod{
+    position: absolute;
+    left: 690px;
+    top: 10px;
+}
+
+#reg{
+    position: absolute;
+    left: 860px;
+    top: 10px;
+}
+
+#login{
+    position: absolute;
+    left: 1060px;
+    top: 10px;
+}
+
+/*Home*/
+
+.banner{
+    width: 100%;
+    padding-top: 40px;
+}
+
+h1
+{
+    padding-left: 38%;
+    font-size: 30pt;
+    font-family: "Staatliches";
+}
+.column{
+    float: left;
+    width: 22%;
+    padding: 5px;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: auto;
+    margin-bottom: 20px;
+    display: grid;
+}
+
+#primg{
+    padding-top: 50px;
+    padding-bottom: 10px;
+    background: white;
+    display: grid;
+    padding-left: 30px;
+}
+
+#contenttitle{
+    font-family: 'Indie Flower', cursive;
+    font-size: 20pt;
+    padding-left: 10px;
+    padding-top: 0%;
+    display: grid;
+}
+#contenttitle2{
+    font-family: 'Indie Flower', cursive;
+    font-size: 16pt;
+    padding-left: 10px;
+    padding-top: 0%;
+    display: grid;
+}
+
+.banner2{
+    width: 100%;
+    padding-top: 88px;
+}
+
+#mealtitle
+{
+    padding-top: 40px;
+    padding-left: 38%;
+    font-size: 30pt;
+    font-family: "Staatliches";
+}
+#mealdes
+{
+    padding-top: 20px;
+    padding-left: 23%;
+    font-size: 20pt;
+    font-family: 'Indie Flower', cursive;
+}
+
+
+.best{
+    float: left;
+    padding-left: 75px;
+    padding-bottom: 100px;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    display: grid;
+}
+
+.column2{
+    float: center;    
+    margin-bottom: 20px;
+    display: grid;
+}
+
+#bestimg{
+    padding-top: 40px;
+    padding-bottom: 10px;
+    background: white;
+    display: grid;
+}
+
+#besttitle{
+    text-align: center;
+    font-family: 'Abril Fatface', cursive;
+    font-size: 16pt;
+    display: grid;
+}
+
+#bestdes{
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 16pt;
+    display: grid;
+    
+}
+/*MEAL PACKAGE*/
+
+#headtitle{
+    text-align: center;
+    font-size: 18pt;
+    padding-top: 30px;
+    font-family: "Staatliches";
+}
+.column3{
+    float: left;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 20px;
+    display: grid;
+    padding-bottom: 150px;
+    grid-column-gap: 0px;
+}
+
+.column3 img{
+    width: 250px;
+    height: 250px;
+    padding: 10px 20px 5px 10px;
+    background-color: white;
+    display: grid;
+}
+#mecategory{
+    display: grid;
+    text-align: center;
+    font-size: 14pt;    
+    font-family: 'Indie Flower', cursive;
+    
+}
+#noofmeals{
+    display: grid;
+    text-align: center;
+    font-size: 12pt;
+    font-family: 'Indie Flower', cursive;
+}
+#mesynop{
+    display: grid;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 11pt;
+    font-family: "Staatliches";
+ 
+}
+#metitle{
+    display: grid;
+    text-align: center;
+    font-size: 20pt;
+    padding-top: 5px;
+    font-family: "Staatliches";
+}
+
+#medes{
+    display: grid;
+    text-align: center;
+    font-size: 15pt;
+    font-family: 'Indie Flower', cursive;
+}
+#mebest{
+    display: grid;
+    text-align: center;
+    padding-top: 15px;
+    font-size: 14pt;
+    font-family: 'Abril Fatface', cursive;
+
+}
+/*Registration*/
+h2{
+    margin-top: 1em;
+    margin: 0 auto;
+    width: 400px;
+    text-align: center;
+    font-family: "Century Gothic";
+    font-weight: normal;
+    font-family: "Staatliches";
+}
+
+#form{
+    padding-top: 10px;
+    padding-bottom: 125px;
+}
+form{
+    margin: 0 auto;
+    width: 400px;
+    padding-top: 300px;
+    padding: 1em;
+    border: 1px solid #575e70;
+    border-radius: 1em;
+    margin-top: 1em;
+}
+#logform{
+    padding-top: 10px;
+    padding-bottom: 125px;
+}
+
+#links2{
+    padding-left: 20%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#or{
+    padding-left: 20%;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-family: "Staatliches";
+}
+input[type=text], select {
+    width: 400px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=password], select {
+    width: 400px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 400px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+
+/*FOOTER*/
+
+#footer{
+    background-color:  #45a049;
+    position: center;
+    height: 200px;
+    margin-top: -100px;
+    clear: both;
+}
+
+#footer>table{
+    margin-top: 10px;
+    padding-top: 15px;
+    text-align: center;
+}
+
+table>tr{
+    padding-right: 20px;
+}
+
+th{
+    text-align: center;
+    font-family: 'Abril Fatface', cursive;
+    padding-bottom: 5px;
+    font-size: 13pt;
+} 
+
+td{
+    text-align: center  ;
+    width: 26%;
+    color: black;
+    font-family: "Staatliches";
+}
+#links{
+    padding-left: 42%;
+    padding-top: 24px;
+}
+#copyright{
+    padding-top: 10px;
+    font-style: italic;
+    text-align: center;
+}
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+  }
+  .fa:hover {
+    opacity: 0.7;
+}
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
+  .fa-twitter {
+    background: #55ACEE;
+    color: white;
+  }
+  .fa-instagram {
+    background: purple;
+    color: white;
+  }
+    
