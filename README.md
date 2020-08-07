@@ -1,4 +1,4 @@
 # assignment2
 web322
-link: https://joochanassignment.herokuapp.com/
+link: https://assignmentweb322.herokuapp.com/
 7/6/2020
