@@ -1,3 +1,45 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema({
+    title: {
+      type: String,
+      requried: true,
+      unique: true
+    },
+    price: {
+      type: Number,
+      requried: true
+    },
+    synopsis: {
+      type: String,
+      requried: true
+    },
+    image: {
+      type: String,
+      requried: true
+    },
+    category: {
+      type: String,
+      requried: true
+    },
+    best: {
+      type: Boolean,
+      required: true
+    },
+    noofmeals: {
+        type: Number,
+        required: true
+    },
+    createdDate: {
+      type: Date,
+      default: Date.now()
+    }
+  });
+
+  const productModel = mongoose.model("Product", productSchema);
+  module.exports = productModel;
+
 const meal =
 {
     fakeDB:[],
@@ -7,7 +49,8 @@ const meal =
 
         this.fakeDB.push({
             image:'/img/vegan.jpg',
-            title:'Vegan',price:'From $200',
+            title:'Vegan',
+            price:'From $200',
             category:'Meal',
             noofmeals: 4,
             synopsis: 'Package Contains Tofu,Veggie Beef & Chicken',

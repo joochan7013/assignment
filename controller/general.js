@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const content_ = require("../model/content");
 const meals_ = require("../model/meals");
+const user_ = require("../model/user");
+
+const isAuthenticated = require("../middleware/authentication");
 
 function isEmpty(object)
 {
@@ -13,8 +16,9 @@ function isEmpty(object)
     }
     return true;
 }
-router.get('/', (req,res) =>{
 
+//home route
+router.get('/', (req,res) =>{
     res.render("home",
     {
         title:"Live Fit Food",
@@ -85,38 +89,53 @@ const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if(isEmpty(error))
     {
-    const msg = {
-        to: `${email}`,
-        from: 'jkim551@myseneca.ca',
-        subject: 'Welcome to Live Fit Foods',
-        text: 'So Happy to See you Starting a Healthy Lifestyle',
-        html: `<strong>Hello ${firstName} ${lastName}, Nice to meet you!</strong>`,
-    };
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY); 
-    sgMail.send(msg)
-    .then(()=>{
-        res.redirect("./dashboard");
-    })  
-
-    .catch(err => {
-        console.log(`Error ${err}`);
-    })    
-    }
-    else
-    {
-        res.render("customer",{
-            title : "Customer Registration",
-            errorName: error.name,
-            errorLast: error.lastname,
-            errorEmail: error.email,
-            errorPass: error.password,
-            errorPass2: error.password2,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password,
-            password2: req.body.password2
-        });
+        user_.findOne({email}).then(user=>{
+            if(user == null)
+            {
+                const msg = {
+                    to: `${email}`,
+                    from: 'jkim551@myseneca.ca',
+                    subject: 'Welcome to Live Fit Foods',
+                    text: 'So Happy to See you Starting a Healthy Lifestyle',
+                    html: `<strong>Hello ${firstName} ${lastName}, Nice to meet you!</strong>`,
+                };
+                const newUser = {
+                    firstname: req.body.firstName,
+                    lastname: req.body.lastName,
+                    lemail: req.body.email,
+                    lpassword: req.body.password
+                };
+                const newuser = new user_(newUser);
+                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+                sgMail.send(msg)
+                .then(
+                    newuser.save()
+                    .then(()=>{
+                        res.render("dashboard",{
+                            title: "Welcome",
+                            name: `${newuser.firstname} ${newuser.lastname}`
+                        });
+                    })
+                    .catch(err=> console.log(`Error while creating user: ${err}`))  
+                )
+                .catch(err=> console.log(`Error while creating user: ${err}`));
+            }
+            else{
+                res.render("customer",{
+                    title : "Customer Registration",
+                    errorName: error.name,
+                    errorLast: error.lastname,
+                    errorEmail: error.email,
+                    errorPass: error.password,
+                    errorPass2: error.password2,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    password: req.body.password,
+                    password2: req.body.password2
+                });
+            }
+        })
     }
 });
 router.get('/login', (req,res) =>{
@@ -134,7 +153,10 @@ router.post('/login', (req,res) => {
     {
         error.email ="Required Field";
     }
-
+    else if (email.search("@") == -1){
+    
+        errorMess.email = "Enter Email format";
+    }
     if(password == "")
     {
         error.password = "Required Field";
@@ -142,7 +164,53 @@ router.post('/login', (req,res) => {
 
     if(isEmpty(error))
     {
-        res.redirect("/");
+        user_.findOne({"lemail": email})
+        .then((user)=>{
+            console.log(user);
+            if(user == null){
+                error.email = "Email not registered";
+                res.render('login', {
+                    title: 'Login',
+                    error1: error.email,
+                    error2: error.password,
+                    email: req.body.email,
+                    password: req.body.password
+                });
+            }
+            else{
+                if(password == user.lpassword)
+                {
+                    req.session.userInfo = user;
+                    if(user.type == "user"){
+                    res.render("welcome",
+                         {
+                            title: "Welcome",
+                            name: `${user.firstname} ${user.lastname}`
+                         });
+                    console.log(req.session.userInfo);
+                    }
+                    else if (user.type == "admin"){
+                        res.render("admin",
+                         {
+                            title: "Welcome",
+                            name: `${user.firstname} ${user.lastname}`
+                         });
+                    }
+                }
+                else{
+                        error.password = "Password Incorrect";
+                         res.render('login', {
+                        title: 'Login',
+                         error1: error.email,
+                        error2: error.password,
+                        email: req.body.email,
+                        password: req.body.password
+                
+                        });
+                    }
+                }
+            })
+        .catch(err => console.log(`Error occur when login ${err}`));
     }
     else
     {
@@ -155,12 +223,17 @@ router.post('/login', (req,res) => {
         });
     }
 });
+router.get("/logout", (req,res) => {
+    req.session.reset();
+    res.redirect("/login");
+})
 
-router.get('/dashboard', (req,res) =>{
 
-    res.render("dashboard",
+router.get('/admin',isAuthenticated, (req,res)=>{
+    
+    res.render("admin",
     {
-        title: "Welcome New Member"
+        title: "Data Clerk",
     });
 })
 

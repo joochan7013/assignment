@@ -1,3 +1,33 @@
+const mongoose = require("mongoose");
+mongoose
+    .connect(process.env.MONGO_DB_URL, 
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    
+const Schema = mongoose.Schema;
+
+const contentSchema = new Schema({
+
+    image: {
+        type: String,
+        required: true
+    },
+    title: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    description: {
+        type: String,
+        required: true
+    }
+})
+
+const contentModel = mongoose.model("Content", contentSchema);
+module.exports = contentModel;
+
 const content=
 {
     fakeDB:[],
@@ -23,4 +53,4 @@ const content=
 }
 
 content.init();
-module.exports=content;
+module.exports=content; 
