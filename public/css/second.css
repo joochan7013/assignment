@@ -19,6 +19,8 @@
   .manage_list_wrapper {
     /* background-color: green; */
     overflow: hidden;
+    padding-bottom: 150px;
+
   }
   .manage_list {
     padding: 10px;
