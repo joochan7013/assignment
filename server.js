@@ -11,25 +11,20 @@ const clientSessions = require("client-sessions");
 
 const app = express();
 
-//Tells express handle bars as its template engine
-app.engine('handlebars',exphbs());
-app.set('view engine', 'handlebars');
-
-app.use(express.static("public"));
-
-app.use(bodyParser.urlencoded({extended: false}));
-
 app.use(clientSessions({
     cookieName: "session", 
     secret: process.env.SECRET_KEY, 
     duration: 2 * 60 * 1000, 
     activeDuration: 1000 * 60 
   }));
-  
-  app.use((req, res, next) => {
-    res.locals.user = req.session.userInfo;
-    next();
-  });
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+app.engine('handlebars',exphbs());
+app.set('view engine', 'handlebars');
+
+app.use(express.static("public"));
 
 const generalcontrol = require("./controller/general");
 

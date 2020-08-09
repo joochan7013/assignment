@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/css/second.css">
+<br>
+<section>
+    <img class="banner" src = "/img/banner.jpg">
+</section>
+<div class="add_product_wrapper">
+    <h1>Add New Meal</h1>
+    <div class="adding_form">
+        <form method="POST" action="/addMeal" enctype="multipart/form-data">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" /> <br><br>
+            <label for="title">Product</label>
+            <input type="text" name="title" id="title" /> <br><br>
+            <label for="price">Price</label>
+            <input type="number" step="0.01" name="price" id="price" /> <br><br>
+            <label id="synopsis" for="description">Description</label>
+            <input type="text" name="synopsis" id="synopsis" value="{{synopsis}}"> <br><br>
+            <label for="category">Category</label>
+            <input type="text" name="category" id="category" /> <br><br>
+            <label for="noofmeals">Number of Meals</label>
+            <input type="number" name="noofmeals" id="noofmeals" value="0" /> <br><br>
+            <label for="bestSeller">Best Seller</label>
+            <input type="checkbox" name="best" id="best" value="1" /> <br><br>
+            <button type="submit">Add Meal Package</button>
+        </form>
+    </div>
+</div>

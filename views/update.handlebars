@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/css/second.css">
+<section>
+    <img class="banner" src = "/img/banner.jpg">
+</section>
+<div class="add_product_wrapper">
+    <h1>Update Meals Package</h1>
+    <div class="adding_form">
+        <form method="POST" action="/update/{{this.title}}">
+
+            <label for="product">{{this.title}}</label>
+            <br><br>
+            <label for="price">Price</label>
+            <input type="number" step="0.01" name="price" id="price" value="{{this.price}}" /> <br><br>
+            <label id="adding_form_desc" for="description">Description</label>
+            <input type="text" name="synopsis" id="synopsis" value="{{synopsis}}"> <br><br>
+            <label for="category">Category</label>
+            <input type="text" name="category" id="category" value="{{this.category}}" /> <br><br>
+            <label for="bestSeller">Top Package</label>
+            <input type="checkbox" name="best" id="best" value="1" /> <br><br>
+            <button type="submit">Upload Meals Package</button>
+        </form>
+    </div>
+
+
+</div>

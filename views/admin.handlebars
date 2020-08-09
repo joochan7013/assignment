@@ -1,11 +1,29 @@
+<link rel="stylesheet" href="/css/second.css">
 <br>
 <section>
     <img class="banner" src = "/img/banner.jpg">
 </section>
 <div class="dash">
-    <h3>Administration<br>
-    {{name}}</h3><br>
-    <h3></h3>
-    <a class="logout" href="/logout">Logout</a>
+    <h3>Data Clerk<br>
+    {{name}}<br>
+    <a href="/addMeal">Add Meal</a></h3>
 </div>  
 </section>
+ <div class="manage_list_wrapper">
+        {{#each data}}
+        <div class="manage_list">
+            <img class="list_img" src="{{this.image}}">
+            <div class="list_content_L">
+                <div class="list_name">{{this.title}}</div>
+                <div class="list_discription">{{this.synopsis}}
+                </div>
+            </div>
+            <div class="list_content_R">
+                <div class="list_price">Price:<br>$ {{this.price}}</div>
+                <a href="/update/{{this.title}}"><button class="update">Update</button></a>
+                <a href="/delete/{{this.title}}"><button class="delete">Delete</button></a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <a class="logout" href="/logout">Logout</a>
