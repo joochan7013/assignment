@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/css/second.css">
+<br>
+<section>
+    <img class="banner" src = "/img/banner.jpg">
+</section>
+<div class="cart_wrapper">
+    <h1>{{this.userName}}'s Cart</h1>
+
+    <div class="addItem">
+        <div class="total">
+            <p>Price: ${{price}}</p>
+            <p>All Package Price</p>
+            <p>${{total}}</p>
+        </div>
+        <a href="/pay"><button>Pay</button></a>
+    </div>
+    <div class=" cart_list_wrapper">
+        {{#each data}}
+        <div class="cart_list">
+            <img class="list_img" src=" /{{this.image}}">
+            <div class="list_content_L">
+                <div class="list_name">{{this.title}}</div>
+                <div class="list_discription">{{this.description}}
+                </div>
+            </div>
+            <div class="list_content_R">
+                <div class="list_price">Price:<br>$ {{this.price}}</div>
+                <div class="list_stock">Quantity:<br> {{this.quantity}}</div>
+                <a href="/delete/{{this.cartId}}?method=DELETE">
+                    <button class="delete">Delete</button>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+
+
+</div>

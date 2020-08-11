@@ -22,6 +22,9 @@ const userSchema = new Schema({
         type: String,
         default: "user"
     },
+    total:{
+        type: Number
+      },
     dateCreate: {
         type: Date,
         default: Date.now()

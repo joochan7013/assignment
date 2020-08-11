@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/css/second.css">
+<section>
+    <img class="banner" src = "/img/banner.jpg">
+</section>
+<div class="add_product_wrapper">
+    <h1>Meals Package Description</h1>
+    <div class="manage_list_wrapper">
+        <div class="manage_list">
+            <img class="list_img" src= "/{{this.image}}">
+            <div class="list_content_L">
+                <div class="list_name">{{this.title}}</div>
+                <div class="list_discription">{{this.synopsis}}
+                </div>
+            </div>
+            <div class="list_content_R">
+                <div class="list_price">Price:<br>$ {{this.price}}</div>
+                <div class="list_price">Number of Meals: {{this.noofmeals}}</div>
+            <form class="import" action="/cart/{{this.id}}" method="POST">
+            <div class="row">
+                <input type="number" name="quantity" id="quantity" style="margin-top: 2px;margin-bottom:1px;width:5rem" value="1">
+            </div>
+            <button class="btn">Add to Cart</button>
+        </form>
+            </div>
+        </div>
+    </div>
+
+</div>

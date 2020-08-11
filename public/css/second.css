@@ -48,7 +48,12 @@
     /* overflow: hidden; */
     height: 100%;
   }
-  
+  .import{
+    width: 100px;
+    height: 35px;
+margin-top: 0px;
+text-align: center;
+}
   .list_content_R {
     width: 130px;
     margin-left: 10px;
@@ -104,8 +109,98 @@
     border-radius: 5px;
     background-color: grey;
   }
+  .cart_wrapper {
+    margin: 15px;
+    min-height: 60vh;
+  }
+  .cart_wrapper > h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  .addItem {
+    float: right;
   
-  @media only screen and (max-width: 500px) {
+    margin: 15px;
+    margin-right: 0px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 15px;
+  }
+  .total p:first-child {
+    font-size: 1.8em;
+    text-align: left;
+  }
+  .total p:nth-child(2) {
+    font-size: 1em;
+    text-align: right;
+  }
+  .total p:nth-child(3) {
+    font-size: 1.2em;
+    text-align: right;
+  }
+  .total p:nth-child(4) {
+    font-size: 1.8em;
+    text-align: left;
+  }
+  .total p:nth-child(5) {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .addItem button {
+    margin-top: 5px;
+    width: 150px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: rgba(243, 195, 63, 0.39);
+  }
+  .cart_list_wrapper {
+    /* background-color: green; */
+    overflow: hidden;
+  }
+  .cart_list {
+    padding: 10px;
+    height: 130px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  .cart_list {
+    display: flex;
+  }
+  .list_name {
+    font-size: 1.2em;
+    font-weight: 500;
+  }
+  .list_img {
+    width: 130px;
+    height: 130px;
+    margin-right: 10px;
+  }
+  .list_content_L {
+    width: 80%;
+    overflow: hidden;
+  }
+  .list_discription {
+    /* overflow: hidden; */
+    height: 100%;
+  }
+  
+  .list_content_R {
+    width: 130px;
+    margin-left: 10px;
+    line-height: 25px;
+    text-align: center;
+  }
+  .delete {
+    width: 80px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: rgba(245, 64, 9, 0.851);
+  }
+  
+  @media only screen and (max-width: 510px) {
     .list_img {
       display: none;
     }
@@ -123,5 +218,8 @@
       }
       .adding_form button {
         margin: 0 auto;
+      }
+      .list_img {
+        display: none;
       }
   }

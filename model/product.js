@@ -26,6 +26,10 @@ const productSchema = new Schema({
       type: Boolean,
       required: true
     },
+    quantity: {
+      type: Number,
+      default: 1
+    },
     noofmeals: {
         type: Number,
         required: true

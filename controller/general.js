@@ -3,8 +3,11 @@ const router = express.Router();
 const content_ = require("../model/content.js");
 const user_ = require("../model/user.js");
 const product = require("../model/product.js")
+const cart = require("../model/cart.js");
 const path = require("path");
 const multer = require('multer');
+const bcrypt = require('bcryptjs');
+const sgMail = require('@sendgrid/mail');
 
 
 const storage = multer.diskStorage({
@@ -17,6 +20,8 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 const isAuthen = require("../middleware/authentication");
+const e = require('express');
+const { updateOne } = require('../model/user.js');
 
 function isEmpty(object)
 {
@@ -83,6 +88,27 @@ router.get('/mealspackage', (req,res) =>{
     });
 })
 
+router.get("/description/:productId", (req,res)=>{
+
+    const {quantity} = req.body;
+    product.findById(req.params.productId)
+    .then(meal =>{
+        console.log(meal);
+        let filter = new product(meal);
+        filter.quantity = quantity;
+        console.log(filter);
+        res.render("description",{
+            id: filter._id,
+            title: filter.title,
+                price: filter.price,
+                synopsis: filter.synopsis,
+                noofmeals: filter.noofmeals,
+                image: filter.image,
+        });
+    })
+    .catch(err=> console.log(err));
+})
+
 router.get('/customer', (req,res) =>{
 
     res.render("customer",
@@ -93,7 +119,6 @@ router.get('/customer', (req,res) =>{
 router.post("/customer",(req,res)=>{
 
 const {firstName,lastName,email, password, password2} = req.body;
-const sgMail = require('@sendgrid/mail');
 const error = {};
 const numalpha = /^((?=.*[a-z])(?=.*[A-Z]))/;
 const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
@@ -137,33 +162,54 @@ const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         user_.findOne({email}).then(user=>{
             if(user == null)
             {
-                const msg = {
-                    to: `${email}`,
-                    from: 'jkim551@myseneca.ca',
-                    subject: 'Welcome to Live Fit Foods',
-                    text: 'So Happy to See you Starting a Healthy Lifestyle',
-                    html: `<strong>Hello ${firstName} ${lastName}, Nice to meet you!</strong>`,
-                };
-                const newUser = {
-                    firstname: req.body.firstName,
-                    lastname: req.body.lastName,
-                    lemail: req.body.email,
-                    lpassword: req.body.password
-                };
-                const newuser = new user_(newUser);
-                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-                sgMail.send(msg)
-                .then(
-                    newuser.save()
-                    .then(()=>{
+                bcrypt.genSalt(10, function(err, salt){
+                    bcrypt.hash(req.body.password,salt, function(err,hash){
+                        const newUser = new user_({
+                            "firstname": req.body.firstName,
+                            "lastname": req.body.lastName,
+                            "lemail": req.body.email,
+                            "lpassword": hash
+                        });
+                        newUser.save((err)=>{
+                            if(err)
+                            {
+                                error.email = "Email already in use";
+                                res.render("customer",{
+                                    title : "Customer Registration",
+                                    errorName: error.name,
+                                    errorLast: error.lastname,
+                                    errorEmail: error.email,
+                                    errorPass: error.password,
+                                    errorPass2: error.password2,
+                                    firstName: req.body.firstName,
+                                    lastName: req.body.lastName,
+                                    email: req.body.email,
+                                    password: req.body.password,
+                                    password2: req.body.password2
+                                });
+                            }
+                            else{
+                                console.log("Success! User Saved");
+                            }
+                            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+                            const msg = {
+                                to: `${email}`,
+                                from: 'jkim551@myseneca.ca',
+                                subject: 'Welcome to Live Fit Foods',
+                                text: 'So Happy to See you Starting a Healthy Lifestyle',
+                                html: `<strong>Hello ${firstName} ${lastName}, Nice to meet you!</strong>`,
+                            };
+                        sgMail.send(msg)
+                         .then(()=>{
                         res.render("dashboard",{
                             title: "Welcome",
-                            name: `${newuser.firstname} ${newuser.lastname}`
+                            name: `${newUser.firstname} ${newUser.lastname}`
                         });
                     })
-                    .catch(err=> console.log(`Error while creating user: ${err}`))  
-                )
-                .catch(err=> console.log(`Error while creating user: ${err}`));
+                    .catch(err=> console.log(`Error while creating user: ${err}`)); 
+                    })
+                })
+                })
             }
             else{
                 res.render("customer",{
@@ -186,10 +232,16 @@ const emailvalid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 router.get('/login', (req,res) =>{
 
+    if(req.session.userInfo){
+        console.log("Already Logged In");
+        res.redirect("/welcome");
+    }
+    else{
     res.render("login",
     {
         title: "Login Page"
     });
+}
 })
 router.post('/login', (req,res) => {
     const error = {};
@@ -224,23 +276,26 @@ router.post('/login', (req,res) => {
                 });
             }
             else{
-                if(password == user.lpassword)
-                {
-                    req.session.userInfo = user;
-                    res.redirect("/welcome");
-                    
-                }
-                else{
-                        error.password = "Password Incorrect";
-                         res.render('login', {
-                        title: 'Login',
-                         error1: error.email,
-                        error2: error.password,
-                        email: req.body.email,
-                        password: req.body.password
-                
-                        });
+                bcrypt
+                .compare(password, user.lpassword)
+                .then(isMatched => {
+                    if(isMatched){
+                        req.session.userInfo = user;
+                        res.redirect("/welcome");
                     }
+                    else{
+                        error.password = "Password Incorrect";
+                        res.render('login', {
+                       title: 'Login',
+                        error1: error.email,
+                       error2: error.password,
+                       email: req.body.email,
+                       password: req.body.password
+               
+                       });
+                    }
+                })
+                .catch(err => console.log(`Error occur when login ${err}`));
                 }
             })
         .catch(err => console.log(`Error occur when login ${err}`));
@@ -261,6 +316,118 @@ router.get("/logout", (req,res) => {
     res.redirect("/login");
 })
 
+router.get("/cart", isAuthen, (req,res)=>{
+    cart.
+    find({userId: req.session.userInfo._id})
+    .then(carts =>{
+        const filter = [];
+            let t_price = 0;
+        carts.forEach(async e =>{
+            t_price += (e.price* e.quantity);
+            filter.push({
+                cartId: e._id,
+                title: e.title,
+                synopsis: e.synopsis,
+                price: e.price,
+                image: e.image,
+                quantity: e.quantity,
+            });
+        });
+        req.session.userInfo.total = t_price;
+        res.render("cart",{
+            title: `${req.session.userInfo.lastname}`,
+            data: filter,
+            total: t_price,
+            userName: `${req.session.userInfo.lastname} ${req.session.userInfo.firstname}`
+        })
+    })
+    .catch(err => console.log(`${err}`));
+});
+
+router.post("/cart/:productId", isAuthen, (req,res) =>{
+    const {quantity} = req.body;
+    product.findOne({_id: req.params.productId})
+    .then(meal =>{
+        cart.findOne({prodId: meal._id})
+        .then(second =>{
+            if(second == null){
+
+                console.log(meal);
+                console.log(quantity);
+                const newItem = {
+                    userId: req.session.userInfo._id,
+                    prodId: meal._id,
+                    title: meal.title,
+                    synopsis: meal.synopsis,
+                    noofmeals: meal.noofmeals,
+                    price: meal.price,
+                    image: meal.image,
+                    quantity: quantity
+                };
+                console.log(newItem);
+                Item = new cart(newItem);
+                Item.save()
+                .then(()=>{
+                    res.redirect("/cart");
+                })
+                .catch(err => console.log(`${err}`));
+            }
+            else{
+                console.log("Already EXISTS");
+                res.redirect("/mealspackage");
+            }
+        })
+        .catch(err => console.log(`${err}`));
+        
+    })
+    .catch(err => console.log(`${err}`));
+})
+
+router.get("/delete/:id",(req,res) =>{
+ cart.deleteOne({_id:req.params.id})
+ .then(()=>{
+     res.redirect("/cart");
+ })
+ .catch(err =>
+    console.log(`Error:${err}`));
+
+})
+router.get("/pay", (req,res)=>{
+    
+    cart.find({userId: req.session.userInfo._id})
+    .then(carts =>{
+        const filter = [];
+        carts.forEach(async e =>{
+            filter.push({
+                title: e.title,
+                price: e.price,
+            });
+        });
+    
+    console.log(filter);
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    let cartString = JSON.stringify(filter);
+    const msg = {
+        to: `${req.session.userInfo.lemail}`,
+        from: 'jkim551@myseneca.ca',
+        subject: 'Welcome to Live Fit Foods',
+        text: 'So Happy to See you Starting a Healthy Lifestyle',
+        html: `Order Details: ${cartString}<br><br><br> Total Price: ${req.session.userInfo.total}`,
+    };
+    sgMail.send(msg)
+                         .then(()=>{
+                            cart.deleteMany()
+                            .then(()=>{
+                                res.redirect("/");
+                    })
+                    .catch(err => console.log(`Error:${err}`));
+                    })
+                    .catch(err=> console.log(`Error while creating user: ${err}`));
+
+})
+.catch(err => console.log(`${err}`));
+
+})
 router.get("/welcome", isAuthen, (req,res)=>{
     if(req.session.userInfo.type == "user")
     {
@@ -392,7 +559,7 @@ router.get("/update/:title",isAuthen, (req,res)=>{
 })
 
 router.post("/update/:title", isAuthen, (req,res)=>{
-    const {title,price, synopsis, category, noofmeals, best} = req.body;
+    const {price, synopsis, category, noofmeals, best} = req.body;
 
     product.updateOne(
         {title: req.params.title},

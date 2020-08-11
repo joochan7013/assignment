@@ -1,3 +1,11 @@
+//Joochan Kim 159616184 jkim551@myseneca.ca
+//August 10 2020 Assignment 5
+//heroku link: https://assignmentweb322.herokuapp.com/
+//github link: https://github.com/joochan7013/assignment2
+//No Blog Page
+//SECRET_KEY = MynameisJoochan
+//PORT = 8080
+//Clerk Id: joochan7013@gmail.com psswrd: John0713!
 const express = require("express");
 
 require('dotenv').config({path:"./config/keys.env"});
